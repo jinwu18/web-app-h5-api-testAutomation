@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="demo-api" parallel="false">
+  <listeners>
+  	<listener class-name="com.automation.listener.TestNGListener" />
+    <listener class-name="com.automation.listener.RetryListener" />
+    <listener class-name="com.automation.listener.IReporterListener" />
+  </listeners>
+  <parameter name ="handlerMode" value="Selenium" />
+  <parameter name ="dbType" value="Oracle" />
+  <parameter name ="connectPath" value="dummyconnectstring;username;password" />
+  <parameter name ="browserType" value="chrome"/>
+  <parameter name ="emulationName" value="iPhone 6"/>
+  <parameter name ="browserPath" value="" />
+  <parameter name ="testOn" value="pro" />
+  <test name="api">
+    <groups>
+		<define name="all">
+			<include name="auto.demo.test.api" />
+		</define>
+		<run>  
+			<include name="all"/> 
+		</run>  
+	</groups>
+    <classes>
+    	<class name="auto.api.script.TestCaseOfApi" />
+    </classes>
+  </test>
+</suite>
