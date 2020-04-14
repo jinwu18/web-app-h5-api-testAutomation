@@ -44,7 +44,7 @@
 
 ├─log 日志输出位置
 
-├─xml testng.xml文件
+├─xml testng.xml文件（测试类驱动文件，包含web、h5、api、app）
 
 ├─resource 资源文件夹
 
@@ -69,3 +69,6 @@
 
 脚本执行后，通过IReporterListener监听生成extent report，/test-output/ExtentHtml.html
 ![](https://github.com/jinwu18/testAutomation/blob/master/extentReport.jpg)
+
+**app**
+app需要配置stf
