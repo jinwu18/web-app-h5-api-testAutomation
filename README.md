@@ -8,6 +8,8 @@
 
 **设计框架**
 
+https://github.com/jinwu18/testAutomation/blob/master/testFrame.jpg
+
 **代码结构** 
 
 │─lib  项目引用jar包及WebDriver执行文件
@@ -66,3 +68,4 @@
 **测试报告**
 
 脚本执行后，通过IReporterListener监听生成extent report，/test-output/ExtentHtml.html
+https://github.com/jinwu18/testAutomation/blob/master/extentReport.jpg
