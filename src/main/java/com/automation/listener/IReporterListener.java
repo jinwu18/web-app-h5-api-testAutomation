@@ -135,7 +135,7 @@ public class IReporterListener implements IReporter {
                     classTestMap.put(className, classNode);
                 }
 
-                testNode = classNode.createNode(result.getMethod().getMethodName() + "-" + ab.caseName + "-" + ab.testEnv(ab.testEnv),
+                testNode = classNode.createNode(result.getMethod().getMethodName(),
                         result.getMethod().getDescription());
 
                 String[] groups = result.getMethod().getGroups();
