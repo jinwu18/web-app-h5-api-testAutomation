@@ -1,3 +1,17 @@
+**设计思想**
+
+- 通过selenium实现web UI自动化，appium+stf实现android UI自动化，rest assured实现API自动化
+
+- 通过testng对测试脚本进行管理，extent report 实现报告输出。
+
+- 通过maven实现脚本CI（jerkins），tomcat实现测试报告线上化
+
+- 使用java作为脚本语言
+
+**设计框架**
+
+![](https://github.com/jinwu18/testAutomation/blob/master/testFrame.jpg)
+
 **说明** 
 
 - TestNG：测试用例管理
@@ -5,10 +19,6 @@
 - Maven：jar包管理
 
 - ExtentReport：测试报告
-
-**设计框架**
-
-![](https://github.com/jinwu18/testAutomation/blob/master/testFrame.jpg)
 
 **代码结构** 
 
@@ -69,6 +79,3 @@
 
 脚本执行后，通过IReporterListener监听生成extent report，/test-output/ExtentHtml.html
 ![](https://github.com/jinwu18/testAutomation/blob/master/extentReport.jpg)
-
-**app**
-app需要配置stf
