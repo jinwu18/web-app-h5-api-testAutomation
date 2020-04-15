@@ -1,8 +1,10 @@
 **设计思想**
 
-- 通过selenium实现web UI自动化，appium+stf实现android UI自动化，rest assured实现API自动化
+- 通过rest assured实现API自动化，保证后端API主要功能及业务流程
 
-- 通过testng对测试脚本进行管理，extent report 实现报告输出。
+- 通过selenium实现web UI自动化，appium+stf实现android UI自动化，保证前端页面操作功能及业务流程
+
+- 通过testng对测试脚本进行管理，extent report 实现报告输出
 
 - 通过maven实现脚本CI（jerkins），tomcat实现测试报告线上化
 
