@@ -93,8 +93,8 @@ public class AppTestNGBase extends AbastractBase{
 			cap.setCapability("noReset", noReset);
 //			cap.setCapability("app", "");
 //			cap.setCapability("browserName", "h5");//h5
-			cap.setCapability("platformName", "Andriod");
-			cap.setCapability("platformVersion", "4.4.2");
+			cap.setCapability("platformName", "Android");
+			cap.setCapability("platformVersion", "5.1.1");
 			cap.setCapability("udid", udid);
 			cap.setCapability("deviceName", udid);
 			cap.setCapability("appPackage", appPackage);
