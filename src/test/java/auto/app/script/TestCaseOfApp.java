@@ -2,32 +2,24 @@ package auto.app.script;
 
 import static org.testng.Assert.assertEquals;
 
-import java.util.List;
-
 import org.testng.annotations.Test;
 
-import com.automation.common.WebCommon;
 import com.automation.exception.FrameworkException;
-import com.automation.framework.WebTestNGBase;
+import com.automation.framework.AppTestNGBase;
 
 import auto.app.page.BaiduAppPage;
 
-public class TestCaseOfApp extends WebTestNGBase{
+public class TestCaseOfApp extends AppTestNGBase{
 
 	@Test(alwaysRun=true, groups={"auto.demo.test.app"}, timeOut=MAX_EXCUTE_TIME)
-	public void caseOfAppiumSearchAndOpenSeleniumHq()throws FrameworkException{
+	public void caseOfAppiumAndroidContact()throws FrameworkException{
 		try{
-			caseName = "使用百度App搜素selenium，并打开官方网站";
+			caseName = "打开安卓电话簿，并添加一个新联系人";
 			whichCaseIsRun(caseName);
 			boolean result = false;
 			
-			BaiduAppPage baidu = new BaiduAppPage(driver);
-			baidu.webDriverSearch("selenium");
-			
-			WebCommon web = new WebCommon(driver);
-			List<String> resultList = web.eleTxtListsGet(baidu.resultLinkBy); 
-			
-			result = strIsIncludedInList("www.seleniumhq.org", resultList);
+			BaiduAppPage baidu = new BaiduAppPage(appHandler);
+			baidu.addNewContact("tester", "13402202055");
 			
 			assertEquals(result, true);
 		}catch (Throwable e) {
