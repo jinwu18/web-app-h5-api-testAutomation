@@ -8,8 +8,6 @@
   <parameter name ="handlerMode" value="Appium" />
   <parameter name ="testFor" value="contact" />
   <test name="app">
-	<parameter name = "user" value="13321872737" />
-	<parameter name = "pwd" value="123456" />   
 	<parameter name = "noReset" value="false" />
 	<parameter name = "port" value="4723" />
 	<parameter name = "udid" value="127.0.0.1:62001" /> 
