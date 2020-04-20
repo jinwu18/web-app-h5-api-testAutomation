@@ -8,6 +8,8 @@ import static io.restassured.RestAssured.given;
 import io.restassured.RestAssured;
 import io.restassured.config.SSLConfig;
 import io.restassured.response.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +30,6 @@ public class ApiCommon extends AbastractBase{
 	/**
 	 * check device status
 	 * @author: 爱吃苹果的鱼
-	 * @param stfUrl
 	 * @param udid
 	 * @return
 	 */
@@ -46,7 +47,6 @@ public class ApiCommon extends AbastractBase{
 	/**
 	 * get devices list
 	 * @author: 爱吃苹果的鱼
-	 * @param stfUrl
 	 * @return
 	 */
 	public List<String> getDevices() {
@@ -55,10 +55,32 @@ public class ApiCommon extends AbastractBase{
 				.header(stfTokenName, stfTokenValue)
 				.contentType(stfContentType)
 				.get("/api/v1/devices");
-		response.prettyPrint();
-		return response.jsonPath().getList("serial");
-	}
+		response.prettyPrint();		
+		List<String> devicesList = response.jsonPath().getList("serial");
+		return devicesList;
+	}	
 	
+	/**
+	 * get ready device
+	 * @author: 爱吃苹果的鱼
+	 * @return
+	 */
+	public List<String> getReadyDevices() {
+		Response response = given()
+				.config(RestAssured.config().sslConfig(new SSLConfig().relaxedHTTPSValidation()))
+				.header(stfTokenName, stfTokenValue)
+				.contentType(stfContentType)
+				.get("/api/v1/devices");
+		response.prettyPrint();		
+		List<String> devicesList = response.jsonPath().getList("serial");
+		List<Boolean> statusList = response.jsonPath().getList("ready");
+		for(int i=0; i<statusList.size(); i++) {
+			if(!statusList.get(i)) {
+				devicesList.remove(i);
+			}
+		}
+		return devicesList;
+	}
 	/**
 	 * current device using user
 	 * @author: 爱吃苹果的鱼

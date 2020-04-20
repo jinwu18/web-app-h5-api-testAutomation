@@ -157,7 +157,7 @@ public class AppTestNGBase extends AbastractBase{
     
     public String getFreeDevice() throws Throwable{
     	ApiCommon api = new ApiCommon();
-    	List<String> devicesList = api.getDevices();
+    	List<String> devicesList = api.getReadyDevices();
     	return strGetFromList(devicesList);
     }
 }
