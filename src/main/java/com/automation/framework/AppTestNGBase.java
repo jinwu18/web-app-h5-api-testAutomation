@@ -15,6 +15,7 @@ import org.testng.annotations.Parameters;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 
+import com.automation.common.ApiCommon;
 import com.automation.exception.FrameworkException;
 import com.automation.listener.Log4jLogger;
 
@@ -152,5 +153,11 @@ public class AppTestNGBase extends AbastractBase{
     public void stopAppium() throws Throwable {
     	killProcess("node.exe");
     	killProcess("cmd.exe");
+    }
+    
+    public String getFreeDevice() throws Throwable{
+    	ApiCommon api = new ApiCommon();
+    	List<String> devicesList = api.getDevices();
+    	return strGetFromList(devicesList);
     }
 }

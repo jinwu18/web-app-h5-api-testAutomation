@@ -101,24 +101,19 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void browserKill(String browserType) throws Throwable {
-		try{
-			switch(browserType.toLowerCase())
-			{
-				case "firefox":Runtime.getRuntime().exec("taskkill /F /IM firefox.exe").waitFor();
-					Runtime.getRuntime().exec("taskkill /F /IM firefoxdriver.exe").waitFor();break;
-				case "chrome":Runtime.getRuntime().exec("taskkill /F /IM chrome.exe").waitFor();
-					Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe").waitFor();break;
-				case "ie":Runtime.getRuntime().exec("taskkill /F /IM iexplore.exe").waitFor();
-					Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe").waitFor();
-					//Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer_64.exe").waitFor();
-					break;
-				default:break;
-			}
-			Thread.sleep(5000);
-		} catch(Exception e)
+		switch(browserType.toLowerCase())
 		{
-			exceptionErrorHandle(e);
+			case "firefox":Runtime.getRuntime().exec("taskkill /F /IM firefox.exe").waitFor();
+				Runtime.getRuntime().exec("taskkill /F /IM firefoxdriver.exe").waitFor();break;
+			case "chrome":Runtime.getRuntime().exec("taskkill /F /IM chrome.exe").waitFor();
+				Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe").waitFor();break;
+			case "ie":Runtime.getRuntime().exec("taskkill /F /IM iexplore.exe").waitFor();
+				Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe").waitFor();
+				//Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer_64.exe").waitFor();
+				break;
+			default:break;
 		}
+		Thread.sleep(5000);
 	}
 	
 	/**
@@ -152,20 +147,17 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean isDate(String str, String dateFormat) throws Throwable {
-		boolean isDate = false;
-		try{
-			if(str.equals("")){
+		if(str.equals("")){
+			logger.info("日期为空");
+			return false;
+		}else{
+			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+			if(sdf.parse(str) != null){
+				return true;
+			}else {
 				return false;
-			}else{
-				SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-				if(sdf.parse(str) != null){
-					isDate = true;
-				}
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return isDate;
     }
 	
 	/**
@@ -175,16 +167,12 @@ public class AbastractBase {
 	 */
 	@SuppressWarnings("deprecation")
 	public String dateFormatTransfer(String date, String format) throws Throwable {
-		String dateStr = "";
-		try{
-			if(!date.equalsIgnoreCase("")){
-				SimpleDateFormat sdf = new SimpleDateFormat(format);
-				dateStr = sdf.format(new Date(date));
-			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+		if(!date.equalsIgnoreCase("")){
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			return sdf.format(new Date(date));
+		}else {
+			return "日期为空";
 		}
-		return dateStr;
 	}
 	
 	/**
@@ -197,17 +185,13 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String dateFormatTransfer(String date, String oriFormat, String newFormat) throws Throwable {
-		String dateStr = "";
-		try{
-			if(!date.equalsIgnoreCase("")){
-				SimpleDateFormat sdf1 = new SimpleDateFormat(oriFormat);
-				SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
-				dateStr = sdf2.format(sdf1.parse(date));
-			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+		if(!date.equalsIgnoreCase("")){
+			SimpleDateFormat sdf1 = new SimpleDateFormat(oriFormat);
+			SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
+			return sdf2.format(sdf1.parse(date));
+		}else {
+			return "日期为空";
 		}
-		return dateStr;
 	}
 	
 	/**
@@ -218,28 +202,20 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String monthTransferToZh(String monthNum) throws Throwable {
-		String zhMonth = "";
-		try{
-			switch(monthNum){
-				case "01": zhMonth = "一月"; break;
-				case "02": zhMonth = "二月"; break;
-				case "03": zhMonth = "三月"; break;
-				case "04": zhMonth = "四月"; break;
-				case "05": zhMonth = "五月"; break;
-				case "06": zhMonth = "六月"; break;
-				case "07": zhMonth = "七月"; break;
-				case "08": zhMonth = "八月"; break;
-				case "09": zhMonth = "九月"; break;
-				case "10": zhMonth = "十月"; break;
-				case "11": zhMonth = "十一月"; break;
-				case "12": zhMonth = "十二月"; break;
-				default:break;
-			}
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		return zhMonth;
+		switch(monthNum){
+		case "01": return "一月";
+		case "03": return "三月";
+		case "04": return "四月";
+		case "05": return "五月";
+		case "06": return "六月";
+		case "07": return "七月";
+		case "08": return "八月";
+		case "09": return "九月";
+		case "10": return "十月";
+		case "11": return "十一月";
+		case "12": return "十二月";
+		default: return "月份输入非法";
+	}
 	}
 	
 	/**
@@ -248,23 +224,24 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void writeToTxt(String txtFilePath, String fileStreamStr, boolean isAppend) throws Throwable {
-
+		File txtFile = new File(txtFilePath);
+		if(!txtFile.exists()){
+			txtFile.createNewFile();
+		}
+		BufferedReader br = new BufferedReader(new FileReader(txtFile));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(txtFile, isAppend));
 		try{
-			File txtFile = new File(txtFilePath);
-			if(!txtFile.exists()){
-				txtFile.createNewFile();
-			}
-			BufferedReader br = new BufferedReader(new FileReader(txtFile));
-			BufferedWriter bw = new BufferedWriter(new FileWriter(txtFile, isAppend));
 			if(br.readLine() != null){
 				bw.write("\r\n");
 				br.close();
 			}
 			bw.write(fileStreamStr);
-			bw.flush();
-			bw.close();		
+	
 		}catch(Exception ex){
 			exceptionErrorHandle(ex);
+		}finally{
+			bw.flush();
+			bw.close();	
 		}
 	}
 	
@@ -303,11 +280,7 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void taskKill(String processName) throws Throwable {
-		try{
-			Runtime.getRuntime().exec("taskkill /F /IM " + processName).waitFor();
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
-		}
+		Runtime.getRuntime().exec("taskkill /F /IM " + processName).waitFor();
 	}
 	
 	public int eleIndexGetFromEleList(List<WebElement> list, WebElement ele) throws Throwable{
@@ -356,17 +329,11 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String desktopSizeGet() throws Throwable {
-		String desktopSize = "";
-		try{
-			Toolkit tk = Toolkit.getDefaultToolkit();
-	        int width = tk.getScreenSize().width; //返回宽度
-	        int height = tk.getScreenSize().height;//高度
-	        desktopSize = width + " x " + height;
-	        logger.info("desktopSize");
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
-		}
-		return desktopSize;
+		Toolkit tk = Toolkit.getDefaultToolkit();
+        int width = tk.getScreenSize().width; //返回宽度
+        int height = tk.getScreenSize().height;//高度        
+        logger.info("desktopSize");
+        return width + " x " + height;
 	}
 	
 	/**
@@ -641,20 +608,14 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean listIsIncludedInList(List<String> list1, List<String> list2) throws Throwable {
-		boolean isContain = false;
-		try{
-			for(String item:list1){
-				if(list2.contains(item)){
-					isContain = true;
-				}else{
-					isContain = false;
-					break;
-				}
+		for(String item:list1){
+			if(list2.contains(item)){
+				continue;
+			}else{
+				return false;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return isContain;
+		return true;
 	}
 	
 	/**
@@ -664,13 +625,9 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void txtBoxEnterPress(By locator) throws Throwable {
-		try{
-			Actions action = new Actions(driver);
-			action.sendKeys(driver.findElement(locator), Keys.ENTER).perform();
-			Thread.sleep(2000);
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
-		}
+		Actions action = new Actions(driver);
+		action.sendKeys(driver.findElement(locator), Keys.ENTER).perform();
+		Thread.sleep(2000);
 	}
 	
 	/**
@@ -682,15 +639,11 @@ public class AbastractBase {
 	 */
 	public int strIndexGetFromArray(Object[] objects, String expectedStr) throws Throwable {
 		int returnStrIndex = 0;
-		try{
-			for(Object str:objects){
-				if(str.toString().equalsIgnoreCase(expectedStr)){
-					break;
-				}
-				returnStrIndex++;
+		for(Object str:objects){
+			if(str.toString().equalsIgnoreCase(expectedStr)){
+				break;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+			returnStrIndex++;
 		}
 		return returnStrIndex;
 	}
@@ -703,20 +656,31 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String strRandomGetFromArray(ArrayList<String> strArray) throws Throwable {
-		String returnStr = "";
-		try{
-			Random rand = new Random();
-			if(strArray.size() != 0 && strArray.size() > 1){
-				int strIndex = rand.nextInt(strArray.size());
-				returnStr = strArray.get(strIndex);
-			}
-			if(strArray.size() == 1){
-				returnStr = strArray.get(0);
-			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+		Random rand = new Random();
+		if(strArray.size() != 0 && strArray.size() > 1){
+			return strArray.get(rand.nextInt(strArray.size()));
+		}else if(strArray.size() == 1){
+			return strArray.get(0);
+		}else {
+			return "数组为空";
 		}
-		return returnStr;
+	}
+	
+	/**
+	 * return random str from list
+	 * @param lists
+	 * @return
+	 * @throws Throwable
+	 */
+	public String strGetFromList(List<String> lists) throws Throwable{
+		Random rand = new Random();
+		if(lists.size() != 0 && lists.size() > 1) {
+			return lists.get(rand.nextInt(lists.size()));
+		}else if(lists.size() == 1){
+			return lists.get(0);
+		}else {
+			return "列表为空";
+		}
 	}
 	
 	/**
@@ -727,26 +691,15 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String strRandomGetFromArray(String[] strArray) throws Throwable {
-		String returnStr = "";
-		try{
-			Random rand = new Random();
-			if(strArray.length != 0 && strArray.length > 1){
-				int strIndex = rand.nextInt(strArray.length);
-				returnStr = strArray[strIndex];
-			}
-			if(strArray.length == 1){
-				returnStr = strArray[0];
-			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+		Random rand = new Random();
+		if(strArray.length != 0 && strArray.length > 1){
+			return strArray[rand.nextInt(strArray.length)];
+		}else if(strArray.length == 1){
+			return strArray[0];
+		}else {
+			return "数组为空";
 		}
-		return returnStr;
 	}
-	
-//	public int daysDiffer(String date1, String date2) throws Throwable{
-//		GregorianCalendar gcal = new GregorianCalendar();
-//		gcal.compareTo(anotherCalendar)
-//	}
 	
 	/**
 	 * 验证日期格式是否正确
@@ -757,21 +710,17 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean dateFormatChk(String dateFormat, List<String> dateStrList) throws Throwable {
-		boolean isMatch = false;
-		try{
-			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
-			for(String dateStr:dateStrList){
-				Date date = sdf.parse(dateStr);
-				isMatch = dateStr.equalsIgnoreCase(sdf.format(date));
-				if(!isMatch){
-					break;
-				}
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		for(String dateStr:dateStrList){
+			Date date = sdf.parse(dateStr);
+			boolean isMatch = dateStr.equalsIgnoreCase(sdf.format(date));
+			if(!isMatch){
+				return false;
+			}else {
+				continue;
 			}
-
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return isMatch;
+		return true;
 	}
 	
 	/**
@@ -924,21 +873,15 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean dateCompare(String dateStr1, String dateStr2) throws Throwable {
-		boolean compareResult = false;
-		try{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			if(sdf.parse(dateStr1).compareTo(sdf.parse(dateStr2)) <= 0){
-				compareResult = true;
-				logger.info("两个日期相等/第二个日期在第一个日期之后");
-			}
-			else{
-				compareResult = false;
-				logger.info("第二个日期小于第一个日期");
-			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if(sdf.parse(dateStr1).compareTo(sdf.parse(dateStr2)) <= 0){
+			logger.info("两个日期相等/第二个日期在第一个日期之后");
+			return true;			
 		}
-		return compareResult;
+		else{
+			logger.info("第二个日期小于第一个日期");
+			return false;		
+		}
 	}
 	
 	/**
@@ -1137,22 +1080,18 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void keepOnePageOpen() throws Throwable {
-		try{
-			int i = 1;
-			Object[] handleArray = driver.getWindowHandles().toArray();
-			int totalHandle = handleArray.length;
-			for(Object handle:handleArray){
-				driver.switchTo().window(handle.toString());
-				if(i==totalHandle){
-					break;
-				}
-				else{
-					driver.close();
-				}
-				i++;
+		int i = 1;
+		Object[] handleArray = driver.getWindowHandles().toArray();
+		int totalHandle = handleArray.length;
+		for(Object handle:handleArray){
+			driver.switchTo().window(handle.toString());
+			if(i==totalHandle){
+				break;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
+			else{
+				driver.close();
+			}
+			i++;
 		}
 	}
 	
@@ -1163,14 +1102,10 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void whichCaseIsRun(String testCaseName) throws Throwable {
-		try{
-			caseName = testCaseName;
-			//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~case " + caseName + " is start~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			LogReConfig.getLog4jConfig(caseName);
-			logger.info("case " + caseName + " is start\n");
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
-		}
+		caseName = testCaseName;
+		//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~case " + caseName + " is start~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		LogReConfig.getLog4jConfig(caseName);
+		logger.info("case " + caseName + " is start\n");
 	}
 	
 	/**
@@ -1201,13 +1136,7 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String spaceRemove(String str) throws Throwable {
-		String newStr = "";
-		try{
-			newStr = str.replace(" ", "").replace("　", "");
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
-		}
-		return newStr;
+		return str.replace(" ", "").replace("　", "");
 	}
 
 	/**
@@ -1310,14 +1239,10 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public void downLoad(int sendKeyPress) throws Throwable {
-		try{
-			Robot robot = new Robot();
-			Thread.sleep(5000);
-			robot.keyPress(sendKeyPress);     
-			Thread.sleep(5000);
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
-		}
+		Robot robot = new Robot();
+		Thread.sleep(5000);
+		robot.keyPress(sendKeyPress);     
+		Thread.sleep(5000);
 	}
 	
 	/**
@@ -1329,23 +1254,14 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean strIsIncludedInAllItems(String expectedStr, List<String> strList) throws Throwable {
-		boolean strIsIn = false;
-		try{
-			for(String str:strList)
-			{
-				if(!str.toLowerCase().contains(expectedStr.toLowerCase()))
-				{
-					strIsIn = false;
-					break;
-				}
-				else{
-					strIsIn = true;
-				}
+		for(String str:strList){
+			if(!str.toLowerCase().contains(expectedStr.toLowerCase())){
+				return false;
+			}else{
+				continue;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return strIsIn;
+		return true;
 	}
 	
 	/**
@@ -1357,23 +1273,14 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean strIsSameInList(String expectedStr, List<String> strList) throws Throwable {
-		boolean strIsIn = false;
-		try{
-			for(String str:strList)
-			{
-				if(!str.toLowerCase().equalsIgnoreCase(expectedStr.toLowerCase()))
-				{
-					strIsIn = false;
-					break;
-				}
-				else{
-					strIsIn = true;
-				}
+		for(String str:strList){
+			if(!str.toLowerCase().equalsIgnoreCase(expectedStr.toLowerCase())){
+				return false;
+			}else{
+				continue;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return strIsIn;
+		return true;
 	}
 	
 	/**
@@ -1383,22 +1290,14 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean allListItemIsNotEmpty(List<String> strList) throws Throwable {
-		boolean strIsEmpty = false;
-		try{
-			for(String str:strList)
-			{
-				if(str.replace(" ", "").equals(""))
-				{
-					strIsEmpty = false;
-					break;
-				}else{
-					strIsEmpty = true;
-				}
+		for(String str:strList){
+			if(str.replace(" ", "").equals("")){
+				return false;
+			}else{
+				continue;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return strIsEmpty;
+		return true;
 	}
 	
 	/**
@@ -1408,22 +1307,14 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean allListItemIsEmpty(List<String> strList) throws Throwable {
-		boolean strIsEmpty = false;
-		try{
-			for(String str:strList)
-			{
-				if(str.replace(" ", "").equals(""))
-				{
-					strIsEmpty = true;
-				}else{
-					strIsEmpty = false;
-					break;
-				}
+		for(String str:strList){
+			if(str.replace(" ", "").equals("")){
+				continue;
+			}else{
+				return false;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return strIsEmpty;
+		return true;
 	}
 	
 	/**
@@ -1434,42 +1325,25 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean strIsIncludedInList(String expectedStr, List<String> strList) throws Throwable {
-		boolean strIsIn = false;
-		try{
-			if(expectedStr.equals("")){
-				return strIsIn;
-			}else{
-				for(String str:strList)
-				{
-					if(str.toLowerCase().contains(expectedStr.toLowerCase()))
-					{
-						strIsIn = true;
-						break;
-					}
-				}
+		for(String str:strList){
+			if(str.toLowerCase().contains(expectedStr.toLowerCase())){
+				continue;
+			}else {
+				return false;
 			}
-
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return strIsIn;
+		return true;
 	}
 	
 	public boolean strIsIncludedInArray(String expectedStr, Object[] objArray) throws Throwable {
-		boolean strIsIn = false;
-		try{
-			for(Object str:objArray)
-			{
-				if(str.toString().toLowerCase().contains(expectedStr.toLowerCase()))
-				{
-					strIsIn = true;
-					break;
-				}
+		for(Object str:objArray){
+			if(!str.toString().toLowerCase().contains(expectedStr.toLowerCase())) {
+				return false;
+			}else {
+				continue;
 			}
-		}catch(Exception ex){
-			exceptionErrorHandle(ex);
 		}
-		return strIsIn;
+		return true;
 	}
 	
 	/**
@@ -1481,9 +1355,6 @@ public class AbastractBase {
 	public boolean eleDisplayChk(final By locator) throws Throwable {	
 		try
 		{
-//			WebDriverWait webWait = new WebDriverWait(this.handler.getMetaDriver(), MAX_TIME);
-//			webWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-//			return true;
 			WebDriver wd = driver;
 			WebElement el = (WebElement) (new WebDriverWait(wd, MAX_TIME, 1)).until
 					(new ExpectedCondition<WebElement>(){
@@ -1552,9 +1423,9 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public boolean isDigital(String str) throws Throwable {
-		   Pattern pattern = Pattern.compile("[0-9]*"); 
-		   Matcher isNum = pattern.matcher(str);
-		   return isNum.matches();
+	   Pattern pattern = Pattern.compile("[0-9]*"); 
+	   Matcher isNum = pattern.matcher(str);
+	   return isNum.matches();
 	}	
 
 	public String readResponse(InputStream is) throws IOException {
