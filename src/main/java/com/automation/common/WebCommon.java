@@ -47,7 +47,7 @@ public class WebCommon extends AbastractBase{
 	
 	/**
 	 * 登录后跳转至内部往来默认页
-	 * @author 上海微知
+	 * @author panyongjun
 	 * 2019年6月14日 下午3:41:00
 	 * @throws Throwable
 	 */
@@ -73,48 +73,9 @@ public class WebCommon extends AbastractBase{
 		return isChecked;
 	}
 	
-	/**
-	 * 等待ajax加载完成
-	 * @param waitSeconds 等待秒数
-	 * @return Boolean
-	 * @author Jerry Qi  06/30/2017
-	 */	
-	public Boolean waitAjaxFinish(int waitSeconds) throws FrameworkException {
-		Boolean ajaxFinish=false;
-		try{
-			WebDriver wd = driver;
-			JavascriptExecutor js=(JavascriptExecutor)driver;
-			Boolean load=(Boolean)js.executeScript("return jQuery()!=null");  //必须有jQuery
-//			Boolean status=(Boolean)js.executeScript("return jQuery.active==0");
-			if(load) {
-				ajaxFinish = (new WebDriverWait(wd, waitSeconds)).until
-						(new ExpectedCondition<Boolean>(){
-						@Override
-							public Boolean apply(WebDriver d){
-								return (Boolean)((JavascriptExecutor)d).executeScript("return jQuery.active==0");
-							}
-						});
-			}
-		} catch(Exception e) {			
-			throw new FrameworkException(e.getMessage());
-		}
-		return ajaxFinish;
-	}
-	
 	public void eleClickByJS(WebElement ele) throws Throwable {
 		WebDriver wd = driver;
 		((JavascriptExecutor)wd).executeScript("arguments[0].click();", ele);	
-    }
-	
-	/**
-	 * 通过javascript直接点击元素(尽量不使用）
-	 * @param locator
-	 * @throws Throwable
-	 * @author Jerry Qi  09/08/2017
-	 */
-	public void eleClickByJS(By locator) throws Throwable {
-		WebDriver wd = driver;
-		((JavascriptExecutor)wd).executeScript("arguments[0].click();", wd.findElement(locator));	
     }
 	
 	/**
@@ -196,33 +157,25 @@ public class WebCommon extends AbastractBase{
 			exceptionErrorHandle(ex);
 		}
 	}
-	
-	
+
 	/**
-	 * 从input下拉框选择内容
-	 * @param locator  下拉箭头定位（或元素点击后可以弹出下拉）
-	 * @param locatorItems 下拉元素定位
-	 * @param optionText 下拉元素文本
-	 * @author Jerry Qi 
-	 * @throws Throwable 
+	 * 常用于页面跳转中，保留一个页面
+	 * @author panyongjun
+	 * @throws Throwable
 	 */
-	public void selectFromInputByText(By locator,By locatorItems,String optionText) throws Throwable{
-		try {
-			eleClickBy(locator);
-			List<WebElement> items=eleListsGet(locatorItems);
-			for(WebElement item:items)
-			{
-				String str = item.getText();
-				if(str.equalsIgnoreCase(optionText))
-				{
-					item.click();
-					logger.info("点击" + optionText);
-					break;
-				}
+	public void keepOnePageOpen() throws Throwable {
+		int i = 1;
+		Object[] handleArray = driver.getWindowHandles().toArray();
+		int totalHandle = handleArray.length;
+		for(Object handle:handleArray){
+			driver.switchTo().window(handle.toString());
+			if(i==totalHandle){
+				break;
 			}
-			
-		} catch (FrameworkException e) {
-			// TODO: handle exception
+			else{
+				driver.close();
+			}
+			i++;
 		}
 	}
 	
@@ -288,91 +241,6 @@ public class WebCommon extends AbastractBase{
 			logger.error("element is not visible");
 			return false;
 		}
-	}
-	
-	/**
-	 * 转换String为By
-	 * @param locator
-	 * @return
-	 * @author panyongjun
-	 * @throws Throwable
-	 */
-	public By getBy(String locator) throws Throwable {
-		By by = null;
-		if (locator != null){
-			String[] arrLocator = locator.split("==");
-			String locatorTag = arrLocator[0].trim();
-			String objectLocator = arrLocator[1].trim();
-
-			if (locatorTag.equalsIgnoreCase("id")){
-				by = By.id(objectLocator);
-			}
-			if (locatorTag.equalsIgnoreCase("name")){
-				by = By.name(objectLocator);
-			}
-			if (locatorTag.equalsIgnoreCase("xpath")){
-				by = By.xpath(objectLocator);
-			}
-			if (locatorTag.equalsIgnoreCase("linkText")){
-				by = By.linkText(objectLocator);
-			}
-			if (locatorTag.equalsIgnoreCase("class")){
-				by = By.className(objectLocator);
-			}
-			if(locatorTag.equalsIgnoreCase("partialLinkText")){
-				by = By.partialLinkText(objectLocator);
-			}
-			if(locatorTag.equalsIgnoreCase("tagName")){
-				by = By.tagName(objectLocator);
-			}
-			if(locatorTag.equalsIgnoreCase("cssSelector")){
-				by = By.cssSelector(objectLocator);
-			}
-		}	
-		return by;
-	}
-	
-	/**
-	 * 转换By为字符串
-	 * @param locator
-	 * @return
-	 * @author panyongjun
-	 * @throws Throwable
-	 */
-	public String setBy(By locator) throws Throwable {
-		String byString = "";
-		if (locator != null){
-			String byWhatStr = locator.toString().replace("By.", "");
-			String[] byWhatArray = byWhatStr.toString().split(":");
-			String locatorTag = byWhatArray[0].trim();
-			String objectLocator = byWhatArray[1].trim();
-
-			if (locatorTag.equalsIgnoreCase("id")){
-				byString = "id==" + objectLocator;
-			}
-			if (locatorTag.equalsIgnoreCase("name")){
-				byString = "name==" + objectLocator;
-			}
-			if (locatorTag.equalsIgnoreCase("xpath")){
-				byString = "xpath==" + objectLocator;
-			}
-			if (locatorTag.equalsIgnoreCase("linkText")){
-				byString = "linkText==" + objectLocator;
-			}
-			if (locatorTag.equalsIgnoreCase("class")){
-				byString = "class==" + objectLocator;
-			}
-			if (locatorTag.equalsIgnoreCase("partialLinkText")){
-				byString = "partialLinkText==" + objectLocator;
-			}
-			if (locatorTag.equalsIgnoreCase("tagName")){
-				byString = "tagName==" + objectLocator;
-			}
-			if(locatorTag.equalsIgnoreCase("cssSelector")){
-				byString = "cssSelector==" + objectLocator;
-			}
-		}
-		return byString;
 	}
 	
 	/**
@@ -704,18 +572,6 @@ public class WebCommon extends AbastractBase{
 		
 		act.moveToElement(driver.findElement(locator)).sendKeys("");
 		act.moveToElement(driver.findElement(locator)).sendKeys(sendValue);
-	}	
-	
-	/**
-	 * 文本框输入, 如果清空不成功
-	 * @param locator 
-	 * @param txtVaue 输入值
-	 * @author Jerry Qi
-	 */
-	public void txtBoxSendKeys(By locator, String value) throws Throwable {
-		WebElement ele = driver.findElement(locator);			
-		ele.sendKeys(Keys.CONTROL + "a");
-		ele.sendKeys(value);
 	}
 	
 	/**
@@ -799,21 +655,6 @@ public class WebCommon extends AbastractBase{
 		String eleTxt = "";
 		if(eleDisplayChk(locator)){
 			eleTxt = driver.findElement(locator).getText().replace(" ", "");
-		}
-		return eleTxt;
-	}
-	
-	/**
-	 * 元素文本值获取(不去空格)
-	 * @param locator
-	 * @return
-	 * @throws Throwable
-	 * @author Jerry Qi
-	 */
-	public String eleTrueTxtGet(By locator) throws Throwable {
-		String eleTxt = "";
-		if(eleDisplayChk(locator)){		
-			eleTxt = driver.findElement(locator).getText();
 		}
 		return eleTxt;
 	}
@@ -1009,12 +850,6 @@ public class WebCommon extends AbastractBase{
 		Thread.sleep(1000);
 	}
 	
-	/**
-	 * 元素右键点击
-	 * @param locator
-	 * @throws Throwable
-	 * @author Jerry Qi 
-	 */
 	public void eleContextClickBy(By locator) throws Throwable {
 		WebDriver wd=driver;
 		Actions action = new Actions(wd); 
@@ -1023,7 +858,6 @@ public class WebCommon extends AbastractBase{
 			action.contextClick(wd.findElement(locator)).perform();// 鼠标右键点击指定的元素
 			waitPageLoad(10);		
 		}
-
 	}
 	
 	/**
@@ -1303,24 +1137,6 @@ public class WebCommon extends AbastractBase{
 		try {
 			wait=new WebDriverWait(driver, 30);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-			//log.info("[" + locator + "],element is visible!");
-			return true;
-		} catch (Exception e) {
-			//log.error("[" + locator + "],element is invisible!");
-			return false;
-		}
-	}
-	
-	/**
-	 * 页面元素是否存在
-	 * @param locator
-	 * @author Jerry Qi 
-	 */
-	public boolean isElementPresent(By locator) {
-
-		try {
-			wait=new WebDriverWait(driver, 10);
-			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			//log.info("[" + locator + "],element is visible!");
 			return true;
 		} catch (Exception e) {

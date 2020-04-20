@@ -1072,27 +1072,6 @@ public class AbastractBase {
 	 */
 	public void exceptionErrorHandle(Exception ex) throws Throwable {
 		logger.error(ex.getMessage());
-	}	
-	
-	/**
-	 * 常用于页面跳转中，保留一个页面
-	 * @author panyongjun
-	 * @throws Throwable
-	 */
-	public void keepOnePageOpen() throws Throwable {
-		int i = 1;
-		Object[] handleArray = driver.getWindowHandles().toArray();
-		int totalHandle = handleArray.length;
-		for(Object handle:handleArray){
-			driver.switchTo().window(handle.toString());
-			if(i==totalHandle){
-				break;
-			}
-			else{
-				driver.close();
-			}
-			i++;
-		}
 	}
 	
 	/**
@@ -1103,7 +1082,6 @@ public class AbastractBase {
 	 */
 	public void whichCaseIsRun(String testCaseName) throws Throwable {
 		caseName = testCaseName;
-		//System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~case " + caseName + " is start~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		LogReConfig.getLog4jConfig(caseName);
 		logger.info("case " + caseName + " is start\n");
 	}
@@ -1391,12 +1369,7 @@ public class AbastractBase {
 		return strList;
 	}
 	
-	/**
-	 * list转化为字符串,有分隔符, 空字符不添加
-	 * @param list
-	 * @param separator  分隔符
-	 * @author Jerry Qi
-	 */	
+	
 	public String listToString(List<String> list, char separator) {
 		StringBuilder sb = new StringBuilder();
 		if(list==null)
@@ -1438,10 +1411,6 @@ public class AbastractBase {
         return sb.toString();
     }
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public int generateRandom() {
         return (int) (Math.random() * 1000000);
     }
