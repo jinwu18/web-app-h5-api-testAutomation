@@ -10,7 +10,7 @@
 
 - 使用java作为脚本语言
 
-**设计框架**
+**设计框架(testFrame.jpg)**
 
 ![](https://github.com/jinwu18/testAutomation/blob/master/testFrame.jpg)
 
@@ -77,7 +77,7 @@
 3、在xml文件目录下执行测试脚本 
 
 
-**测试报告**
+**测试报告(extentReport.jpg)**
 
 脚本执行后，通过IReporterListener监听生成extent report，/test-output/ExtentHtml.html
 ![](https://github.com/jinwu18/testAutomation/blob/master/extentReport.jpg)
