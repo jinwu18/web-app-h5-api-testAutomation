@@ -81,3 +81,12 @@
 
 脚本执行后，通过IReporterListener监听生成extent report，/test-output/ExtentHtml.html
 ![](https://github.com/jinwu18/testAutomation/blob/master/extentReport.jpg)
+
+**testng.xml说明**
+执行所需参数全部写于xml文件中，比如执行app测试，在本地部署完appium、模拟器等环境后，在testng-app.xml文件配置如下信息：
+- <parameter name = "port" value="4723" />
+- <parameter name = "udid" value="192.168.174.101:5555" /> 
+- <parameter name = "platformVersion" value="7.1.1" />
+- <parameter name = "appPackage" value="com.android.contacts" />
+- <parameter name = "appActivity" value="com.android.contacts.activities.PeopleActivity" />	
+在test中添加对应的测试脚本
