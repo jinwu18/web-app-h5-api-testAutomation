@@ -81,7 +81,7 @@
 
 脚本执行后，通过IReporterListener监听生成extent report，/test-output/ExtentHtml.html
 ![](https://github.com/jinwu18/testAutomation/blob/master/extentReport.jpg)
-![](https://github.com/jinwu18/testAutomation/blob/master/test-summary.png)
+
 
 **testng.xml说明**
 
