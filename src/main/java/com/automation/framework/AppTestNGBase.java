@@ -63,8 +63,8 @@ public class AppTestNGBase extends AbastractBase{
 	@BeforeClass(groups = "all")
 	public void beforeClass(String port, String udid) throws Throwable{
 		try {
-			stopAppium();
-			startAppium(Integer.valueOf(port), udid);
+//			stopAppium();
+//			startAppium(Integer.valueOf(port), udid);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		    String startAppiumLogcat = "cmd.exe /c \"adb -s " + udid + " logcat >d:/logs/" + udid.replace(":",  "_") + "_" + sdf.format(new Date()) + ".log\"";
 		    System.out.println(startAppiumLogcat);
@@ -81,21 +81,17 @@ public class AppTestNGBase extends AbastractBase{
 	 * author:panyongjun
 	 * date:2019年12月27日
 	 */
-	@Parameters({"user", "pwd", "port", "udid", "noReset", "appPackage", "appActivity"})
+	@Parameters({"noReset", "port", "udid", "appPackage", "appActivity", "platformVersion"})
 	@BeforeMethod(groups = "all")
-	public void beforeMethod(String user, String pwd, String port, String udid, 
-			boolean noReset, String appPackage, String appActivity) throws Throwable{
+	public void beforeMethod(String noReset, String port, String udid, 
+			String appPackage, String appActivity, String platformVersion) throws Throwable{
 		try {
 			DesiredCapabilities cap = new DesiredCapabilities();
 			cap.setCapability("unicodeKeyboard", true);//中文
-//			cap.setCapability("resetKeyboard", true);
-//			cap.setCapability("newCommandTimeout", "10");
-//			cap.setCapability("nosign", true);
+			cap.setCapability("automationName", "UiAutomator2");
 			cap.setCapability("noReset", noReset);
-//			cap.setCapability("app", "");
-//			cap.setCapability("browserName", "h5");//h5
 			cap.setCapability("platformName", "Android");
-			cap.setCapability("platformVersion", "5.1.1");
+			cap.setCapability("platformVersion", platformVersion);
 			cap.setCapability("udid", udid);
 			cap.setCapability("deviceName", udid);
 			cap.setCapability("appPackage", appPackage);
