@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="demo-suite" parallel="false">
   <suite-files>
-      <suite-file path="src/test/xml/ui/auto/demo/testng-web.xml"></suite-file>
-      <suite-file path="src/test/xml/ui/auto/demo/testng-h5.xml"></suite-file>
-      <suite-file path="src/test/xml/ui/auto/demo/testng-app.xml"></suite-file>
-      <suite-file path="src/test/xml/ui/auto/demo/testng-api.xml"></suite-file>
-      <suite-file path="src/test/xml/ui/auto/demo/testng-api-parallel.xml"></suite-file>
+      <suite-file path="src/test/xml/auto/demo/testng-web.xml"></suite-file>
+      <suite-file path="src/test/xml/auto/demo/testng-h5.xml"></suite-file>
+      <suite-file path="src/test/xml/auto/demo/testng-app.xml"></suite-file>
+      <suite-file path="src/test/xml/auto/demo/testng-api.xml"></suite-file>
+      <suite-file path="src/test/xml/auto/demo/testng-api-parallel.xml"></suite-file>
   </suite-files>
 </suite>
