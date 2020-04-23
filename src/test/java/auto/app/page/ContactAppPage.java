@@ -30,6 +30,5 @@ public class ContactAppPage extends AppCommon{
 		txtBoxSendValue(editBox.get(0), userNameGet());//姓名
 		txtBoxSendValue(editBox.get(1), phoneNumberGet());//电话
 		eleClickById("menu_save");//保存
-		Thread.sleep(1000);
 	}
 }

@@ -25,8 +25,9 @@ public class TestCaseOfApp extends AppTestNGBase{
 			ContactAppPage contact = new ContactAppPage(appHandler);
 			contact.addNewContact(newContactor, newPhone);//联系人添加
 			
+			//toast信息比对
 			AppCommon app = new AppCommon(appHandler);
-			result = app.toastChk("联系人已保存");//toast信息比对
+			result = app.toastChk("联系人已保存");
 			
 			assertEquals(result, true);
 		}catch (Throwable e) {

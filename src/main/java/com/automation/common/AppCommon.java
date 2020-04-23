@@ -28,6 +28,13 @@ public class AppCommon extends AbastractBase{
 		this.appHandler = handler;
 	}	
 	
+	/**
+	 * toast message check
+	 * @param toast
+	 * @return
+	 * @author: 爱吃苹果的鱼   
+	 * @date: 2020年4月23日
+	 */
 	public boolean toastChk(String toast) {
 		try {
 			final WebDriverWait wait = new WebDriverWait(appHandler,2);
@@ -35,8 +42,9 @@ public class AppCommon extends AbastractBase{
 			System.out.println("找到了toast\"" + toast + "\"");
 			return true;
 		} catch (Exception e) {
-			throw new AssertionError("找不到"+toast);
-		}		
+			logger.info("找不到\"" + toast + "\"");
+			return false;
+		}
 	}
 	
 	/**
