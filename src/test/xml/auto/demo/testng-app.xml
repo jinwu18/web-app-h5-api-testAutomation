@@ -10,8 +10,8 @@
   <test name="app">
 	<parameter name = "noReset" value="false" />
 	<parameter name = "port" value="4723" />
-	<parameter name = "udid" value="192.168.174.101:5555" /> 
-	<parameter name = "platformVersion" value="7.1.1" />
+	<parameter name = "udid" value="192.168.174.103:5555" /> 
+	<parameter name = "platformVersion" value="7.1.0" />
 	<parameter name = "appPackage" value="com.android.contacts" />
 	<parameter name = "appActivity" value="com.android.contacts.activities.PeopleActivity" />	
     <groups>
