@@ -4,12 +4,16 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
+import com.automation.common.AppCommon;
 import com.automation.exception.FrameworkException;
 import com.automation.framework.AppTestNGBase;
 
-import auto.app.page.BaiduAppPage;
+import auto.app.page.ContactAppPage;
 
 public class TestCaseOfApp extends AppTestNGBase{
+	
+	String newContactor = "";
+	String newPhone = "";
 
 	@Test(alwaysRun=true, groups={"auto.demo.test.app"}, timeOut=MAX_EXCUTE_TIME)
 	public void caseOfAppiumAndroidContact()throws FrameworkException{
@@ -18,8 +22,11 @@ public class TestCaseOfApp extends AppTestNGBase{
 			whichCaseIsRun(caseName);
 			boolean result = false;
 			
-			BaiduAppPage baidu = new BaiduAppPage(appHandler);
-			baidu.addNewContact("tester", "13402202055");
+			ContactAppPage contact = new ContactAppPage(appHandler);
+			contact.addNewContact(newContactor, newPhone);//联系人添加
+			
+			AppCommon app = new AppCommon(appHandler);
+			result = app.toastChk("联系人已保存");//toast信息比对
 			
 			assertEquals(result, true);
 		}catch (Throwable e) {

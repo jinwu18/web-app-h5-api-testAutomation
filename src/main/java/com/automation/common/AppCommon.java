@@ -2,7 +2,11 @@ package com.automation.common;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import com.automation.framework.AbastractBase;
 import com.automation.listener.Log4jLogger;
@@ -22,6 +26,50 @@ public class AppCommon extends AbastractBase{
 	
 	public AppCommon(AppiumDriver<MobileElement> handler) {
 		this.appHandler = handler;
+	}	
+	
+	public boolean toastChk(String toast) {
+		try {
+			final WebDriverWait wait = new WebDriverWait(appHandler,2);
+			Assert.assertNotNull(wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//*[contains(@text,'"+ toast + "')]"))));
+			System.out.println("找到了toast\"" + toast + "\"");
+			return true;
+		} catch (Exception e) {
+			throw new AssertionError("找不到"+toast);
+		}		
+	}
+	
+	/**
+	 * device width get
+	 * @author: 爱吃苹果的鱼   
+	 * @date: 2020年4月23日
+	 */
+	public int deviceXGet() {
+		return appHandler.manage().window().getSize().getWidth();
+	}
+	
+	/**
+	 * device height get
+	 * @author: 爱吃苹果的鱼   
+	 * @date: 2020年4月23日
+	 */
+	public int deviceYGet() {
+		return appHandler.manage().window().getSize().getHeight();
+	}
+	
+	/**
+	 * tap click with point x and y
+	 * @param x
+	 * @param y
+	 * @author: 爱吃苹果的鱼   
+	 * @date: 2020年4月23日
+	 */
+	@SuppressWarnings("rawtypes")
+	public void tapClick(int x, int y) {
+//		Thread.sleep(5000);
+		TouchAction act = new TouchAction(appHandler);
+		act.tap(PointOption.point(x, y)).perform();
+//		act.(onElement);
 	}
 	
 	/**
