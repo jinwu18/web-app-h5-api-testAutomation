@@ -1125,7 +1125,7 @@ public class AbastractBase {
 	 * @throws Throwable
 	 */
 	public String emailGet(String phoneNum) throws Throwable {
-		return phoneNum + "@shclearing.com";
+		return phoneNum + "@139.com";
 	}
 	
 	/**
