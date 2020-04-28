@@ -1146,21 +1146,6 @@ public class WebCommon extends AbastractBase{
 	}
 	
 	/**
-	 * judge an element is enabled and clickable or not
-	 * @param locator
-	 * @author Jerry Qi 
-	 */
-	public boolean isElementClickable(By locator) {
-		try {
-			wait=new WebDriverWait(driver, 30);
-			wait.until(ExpectedConditions.elementToBeClickable(locator));		
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	
-	/**
 	 * 浏览器放大/缩小显示
 	 * @author panyongjun
 	 * @throws Throwable
@@ -1222,18 +1207,6 @@ public class WebCommon extends AbastractBase{
 	}
 	
 	/**
-	 * 滚动
-	 * @param locator
-	 * @author Jerry Qi
-	 */	
-	public void scrollToElement(By locator) throws Throwable {
-		WebElement element = driver.findElement(locator);
-//		element.click();
-	    //滑动到页面的指定元素位置
-	    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-	}
-	
-	/**
 	 * 根据指定元素id滚动
 	 * @param id
 	 * @author panyongjun
@@ -1284,43 +1257,4 @@ public class WebCommon extends AbastractBase{
 		((JavascriptExecutor)driver).
 		executeScript("window.scrollTo(" + x + "," + y + ")");		
 	}
-	
-	/**
-	 * 发送回车 
-	 * @author Jerry Qi  04/27/2017
-	 */
-	public void pressEnter() throws Throwable {
-		Actions action=new Actions(driver);
-		action.sendKeys(Keys.ENTER).perform();
-		Thread.sleep(1000);
-	}
-	
-	/**
-	 * 键盘按键
-	 * @param k, 如Keys.TAB
-	 * @throws Throwable
-	 * @author Jerry Qi
-	 */
-	public void pressKey(Keys k) throws Throwable {
-		Actions action=new Actions(driver);
-		action.sendKeys(k).perform();
-		Thread.sleep(1000);
-	}	
-
-	/**
-	 * 按组合键（2个）
-	 * @param k1, 如KeyEvent.VK_CONTROL
-	 * @param k2, 如KeyEvent.VK_V
-	 * @throws Throwable
-	 * @author Jerry Qi
-	 */
-	public void pressCombinationKey(int k1, int k2) throws Throwable {
-		Robot robot = new Robot();
-		robot.keyPress(k1);
-		robot.keyPress(k2);
-		robot.keyRelease(k2); 
-		robot.keyRelease(k1);
-		//Thread.sleep(1000);
-		waitPageLoad(10);
-	}	
 }
