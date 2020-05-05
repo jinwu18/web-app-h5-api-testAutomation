@@ -12,7 +12,7 @@
 
 **设计框架(testFrame.jpg)**
 
-![](https://github.com/jinwu18/testAutomation/blob/master/testFrame.jpg)
+![](https://github.com/jinwu18/testAutomation/blob/master/testFrame.png)
 
 **说明** 
 
