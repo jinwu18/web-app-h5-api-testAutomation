@@ -1,6 +1,7 @@
 package com.automation.listener;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,8 +13,6 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.automation.config.LogConfig;
-import com.automation.config.LogReConfig;
-import com.automation.framework.AbastractBase;
 
 public class Log4jLogger {
     private static Logger logger = null;
@@ -34,22 +33,21 @@ public class Log4jLogger {
     /** log level:error */
     private final int error = 4;
     static {
-    	PropertyConfigurator.configure(LogConfig.getLog4jConfig());
+    	try {
+			PropertyConfigurator.configure(LogConfig.getLog4jConfig());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         logger = Logger.getLogger(Log4jLogger.class);
         
     }
 
     @SuppressWarnings("static-access")
 	private void log(int level, Object message, StackTraceElement[] ste) {
-    	AbastractBase base = new AbastractBase();
     	if (ste != null) {
             message = getStackMsg(ste) + ":" + message;
         }
-		String testCaseName = base.caseName;
-    	if(!testCaseName.equalsIgnoreCase("")){
-    		PropertyConfigurator.configure(LogReConfig.getLog4jConfig(base.caseName));
-    		logger = Logger.getLogger(Log4jLogger.class);
-    	}
         switch (level) {
         case info:
             logger.info(message);

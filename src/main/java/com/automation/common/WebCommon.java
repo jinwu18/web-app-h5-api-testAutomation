@@ -242,6 +242,32 @@ public class WebCommon extends AbastractBase{
 			return false;
 		}
 	}
+		
+	/**
+	 * 验证页面元素是否已显示
+	 * @param by
+	 * @return
+	 * @throws Throwable
+	 */
+	public boolean eleDisplayChk(final By locator) throws Throwable {	
+		try
+		{
+			WebDriver wd = driver;
+			WebElement el = (WebElement) (new WebDriverWait(wd, MAX_TIME, 1)).until
+					(new ExpectedCondition<WebElement>(){
+						
+						public WebElement apply(WebDriver d){
+							return d.findElement(locator);
+						}
+					});
+			return el.isDisplayed();
+		}
+		catch(TimeoutException ex)
+		{
+			logger.error("element:\\" + locator + " \\is not visible");
+			return false;
+		}
+	}
 	
 	/**
 	 * 页面元素hover
@@ -1026,7 +1052,7 @@ public class WebCommon extends AbastractBase{
 	 */
 	public void exceptionErrorHandle(Throwable ex) throws Throwable {
 		String exceptionErrorScreenShot = caseName + "exceptionError" + "_screenShot" + 
-				generateRandom() + ".jpg";
+				(new Random()).nextInt(10000000) + ".jpg";
 		takeSnapShot(exceptionErrorScreenShot);
 		logger.error(ex.getMessage());
 	}
