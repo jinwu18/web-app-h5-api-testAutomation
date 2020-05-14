@@ -47,7 +47,7 @@
 					<version>2.22.0</version>
 					<configuration>
 						<suiteXmlFiles>
-							<suiteXmlFile>${basedir}/src/test/xml/ui/auto/demo/testng-api.xml</suiteXmlFile>
+							<suiteXmlFile>${basedir}/src/test/xml/auto/demo/testng-api.xml</suiteXmlFile>
 						</suiteXmlFiles>
 					</configuration>
 				</plugin>
@@ -148,13 +148,11 @@
 		<groupId>io.rest-assured</groupId>
 		<artifactId>rest-assured</artifactId>
 		<version>4.3.0</version>
-		<scope>test</scope>
 	</dependency>
 	<dependency>
 		<groupId>io.rest-assured</groupId>
 		<artifactId>json-schema-validator</artifactId>
 		<version>4.3.0</version>
-		<scope>test</scope>
 	</dependency>
 	<dependency>
 		<groupId>com.belerweb</groupId>
