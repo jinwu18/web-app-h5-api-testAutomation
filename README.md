@@ -95,5 +95,5 @@
 
 然后在test中添加对应的测试脚本
 
-**项目导入见csdn**
+**项目部署见csdn**
 https://blog.csdn.net/jinwu18/article/details/106011098
