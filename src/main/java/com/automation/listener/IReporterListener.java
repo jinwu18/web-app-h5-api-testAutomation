@@ -25,10 +25,11 @@ import org.testng.Reporter;
 import org.testng.xml.XmlSuite;
 
 import com.automation.framework.AbastractBase;
-import com.automation.utils.FileUtil;
 import com.aventstack.extentreports.AnalysisStrategy;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import com.google.common.io.Files;
+
 
 public class IReporterListener implements IReporter {
 
@@ -65,8 +66,13 @@ public class IReporterListener implements IReporter {
 
         ExtentService.getInstance().flush();
         extentReportCssJSSet(outputDirectory);
-    	FileUtil fileUtil = new FileUtil();
-    	fileUtil.fileCopy(outputDirectory + File.separator + "ExtentHtml.html", outputDirectory + File.separator + ab.testReportName + ".html");
+    	String testReportPath = System.getenv("TOMCAT_HOME") + File.separator + "webapps" + File.separator + "automation";
+    	try {
+			Files.copy(new File(outputDirectory + File.separator + "ExtentHtml.html"), new File(testReportPath + File.separator + "testReport.html"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     private void extentReportCssJSSet(String outputDirectory){

@@ -13,7 +13,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.automation.listener.Log4jLogger;
-import com.automation.utils.FileUtil;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -27,7 +26,6 @@ import io.appium.java_client.MobileElement;
 public class AbastractBase {
 	public static String url = "";//测试链接
 	Log4jLogger logger = new Log4jLogger();
-	FileUtil fileUtil = new FileUtil();
 	public RemoteWebDriver driver = null;
 	public AppiumDriver<MobileElement> appHandler;
 	public  WebDriverWait wait = null;
@@ -40,6 +38,7 @@ public class AbastractBase {
 	public String testReportName = "";//测试report	
 	public static String emulationName = "";//H5 emulation
 	public String testEnv = "";//test-测试环境，pre-预生产环境，pro-生产环境
+
 	
 	public void pressKey(Keys k) throws Throwable {
 		Actions action=new Actions(driver);

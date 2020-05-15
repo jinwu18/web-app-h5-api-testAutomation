@@ -1068,8 +1068,7 @@ public class WebCommon extends AbastractBase{
 			 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			 Robot robot = new Robot();
 			 BufferedImage bi=robot.createScreenCapture(new Rectangle(screenSize.width,screenSize.height)); // 抓取整个桌面
-			 com.automation.utils.FileUtil fileUtil = new com.automation.utils.FileUtil();
-			 fileUtil.folderCreate("D:\\failCaseSnapShot");
+			 (new File("D:\\failCaseSnapShot")).mkdir();
 			 String desktopImageName = deskTopSnapShot + "_" + sdf.format(dateTimeNow) + ".jpg";
 			 ImageIO.write(bi, "jpg", new File("D:/failCaseSnapShot/" + desktopImageName)); //把抓取到的内容写入到一个jpg文件中
 			 caseScreenShotList1.add(desktopImageName);
